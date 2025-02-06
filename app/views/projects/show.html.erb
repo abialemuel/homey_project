@@ -1,0 +1,35 @@
+<h1 class="text-2xl font-bold"><%= @project.name %></h1>
+<p>Status: <strong><%= @project.status %></strong></p>
+
+<!-- Status Update Form -->
+<h2 class="text-lg font-semibold mt-4">Change Status</h2>
+<%= form_with url: update_status_project_path(@project), method: :patch, local: true do %>
+<select name="status">
+    <option value="pending" <%= "selected" if @project.status == "pending" %>>Pending</option>
+    <option value="in_progress" <%= "selected" if @project.status == "in_progress" %>>In Progress</option>
+    <option value="completed" <%= "selected" if @project.status == "completed" %>>Completed</option>
+</select>
+<button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded">Update</button>
+<% end %>
+
+<!-- Comment Form -->
+<h2 class="text-lg font-semibold mt-4">Add Comment</h2>
+<%= form_with url: add_comment_project_path(@project), method: :post, local: true do %>
+<textarea name="comment" class="border p-2 w-full rounded"></textarea>
+<button type="submit" class="bg-purple-500 text-white px-3 py-1 mt-2 rounded">Add Comment</button>
+<% end %>
+
+<!-- Comment History -->
+<h2 class="text-lg font-semibold mt-4">History</h2>
+<ul class="border-t pt-3">
+    <% @project.project_histories.each do |history| %>
+    <li class="p-2 border-b">
+        <strong><%= history.user.name %></strong> <!-- Display user name -->
+        <span class="text-xs text-gray-500">[<%= history.change_type.humanize %>]</span> <!-- Show change type -->
+        <p class="mt-1"><%= history.content %></p> <!-- Display content -->
+        <span class="text-sm text-gray-500">(<%= history.created_at.strftime("%Y-%m-%d %H:%M") %>)</span> <!-- Timestamp -->
+    </li>
+    <% end %>
+</ul>
+
+<a href="<%= root_path %>" class="text-blue-500 mt-4 block">Back to Projects</a>

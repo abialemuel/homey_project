@@ -1,0 +1,9 @@
+<h1 class="text-2xl font-bold">Projects</h1>
+<ul>
+    <% @projects.each do |project| %>
+    <li class="p-3 border-b">
+        <strong><%= project.name %></strong> - Status: <%= project.status %>
+        <a href="<%= project_path(project) %>" class="ml-4 text-blue-500">View</a>
+    </li>
+    <% end %>
+</ul>
